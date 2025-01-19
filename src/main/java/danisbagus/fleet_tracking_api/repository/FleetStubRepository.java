@@ -32,11 +32,8 @@ public class FleetStubRepository {
         return  id;
     }
 
-    public Fleet findByID(Integer id) {
-        return fleets.stream()
-                .filter(fleet -> fleet.getId() == id)
-                .findFirst()
-                .orElse(null);
+    public Optional<Fleet> findByID(Integer id) {
+        return fleets.stream().filter(fleet -> fleet.getId() == id).findFirst();
     }
 
     public Boolean deleteByID(Integer id) {
@@ -46,9 +43,7 @@ public class FleetStubRepository {
     public Boolean updateByID(Integer id, Fleet payload) {
         Predicate<? super Fleet> predicate = fleet -> fleet.getId().equals(id);
 
-        Optional<Fleet> fleetOptional = fleets.stream()
-                .filter(predicate)
-                .findFirst();
+        Optional<Fleet> fleetOptional = fleets.stream().filter(predicate).findFirst();
 
         if (fleetOptional.isPresent()){
             Fleet fleet = fleetOptional.get();

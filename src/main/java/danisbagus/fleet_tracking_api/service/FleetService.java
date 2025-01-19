@@ -3,6 +3,7 @@ package danisbagus.fleet_tracking_api.service;
 import danisbagus.fleet_tracking_api.domain.dto.FleetRequest;
 import danisbagus.fleet_tracking_api.domain.dto.FleetResponse;
 import danisbagus.fleet_tracking_api.domain.entity.Fleet;
+import danisbagus.fleet_tracking_api.exception.BadRequestException;
 import danisbagus.fleet_tracking_api.repository.FleetStubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,15 +28,17 @@ public class FleetService {
     }
 
     public FleetResponse get(Integer id) {
-        Fleet fleet = fleetStubRepository.findByID(id);
+        Fleet fleet = fleetStubRepository.findByID(id).orElseThrow(() -> new BadRequestException("Fleet not found"));
         return toFleetResponse(fleet);
     }
 
     public Boolean delete(Integer id) {
+        fleetStubRepository.findByID(id).orElseThrow(() -> new BadRequestException("Fleet not found"));
         return fleetStubRepository.deleteByID(id);
     }
 
     public Boolean update(Integer id, FleetRequest fleetRequest) {
+        fleetStubRepository.findByID(id).orElseThrow(() -> new BadRequestException("Fleet not found"));
         Fleet fleet = toFleet(fleetRequest);
         return  fleetStubRepository.updateByID(id, fleet);
     }
