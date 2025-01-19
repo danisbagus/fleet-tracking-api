@@ -2,14 +2,17 @@ package danisbagus.fleet_tracking_api.domain.dto;
 
 public class WebResponse<T> {
 
-    private T data;
-
-    private String message;
-
     private int status;
+    private String message;
+    private T data;
 
     public WebResponse(T data, String message, int status) {
         this.data = data;
+        this.message = message;
+        this.status = status;
+    }
+
+    public WebResponse(String message, int status) {
         this.message = message;
         this.status = status;
     }
