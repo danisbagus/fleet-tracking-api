@@ -14,6 +14,8 @@ public class Fleet {
 
     private Timestamp updatedAt;
 
+    public Fleet() {}
+
     public Fleet(Integer id, String vehicleNumber, VehicleType vehicleType) {
         this.id = id;
         this.vehicleNumber = vehicleNumber;
@@ -23,6 +25,13 @@ public class Fleet {
     public Fleet(String vehicleNumber, VehicleType vehicleType) {
         this.vehicleNumber = vehicleNumber;
         this.vehicleType = vehicleType;
+    }
+
+    public Fleet(String vehicleNumber, VehicleType vehicleType, Timestamp createdAt, Timestamp updatedAt) {
+        this.vehicleNumber = vehicleNumber;
+        this.vehicleType = vehicleType;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Integer getId() {
@@ -47,5 +56,21 @@ public class Fleet {
 
     public void setVehicleType(VehicleType vehicleType) {
         this.vehicleType = vehicleType;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
