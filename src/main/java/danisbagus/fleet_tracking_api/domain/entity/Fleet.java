@@ -1,17 +1,30 @@
 package danisbagus.fleet_tracking_api.domain.entity;
 
+import danisbagus.fleet_tracking_api.domain.dto.FleetRequest;
 import danisbagus.fleet_tracking_api.domain.enums.VehicleType;
-import java.sql.Timestamp;
+import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+import java.util.Optional;
+import java.time.Instant;
+
+@Entity
 public class Fleet {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(name = "vehicle_number")
     private String vehicleNumber;
 
+    @Column(name = "vehicle_type")
     private VehicleType vehicleType;
 
+    @Column(name = "created_at")
     private Timestamp createdAt;
 
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
 
     public Fleet() {}
@@ -72,5 +85,15 @@ public class Fleet {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setWithFleetRequest(FleetRequest request) {
+        if (request == null) {
+            return;
+        }
+
+        this.vehicleNumber = request.getVehicleNumber();
+        this.vehicleType = request.getVehicleType();
+        this.updatedAt = Timestamp.from(Instant.now());
     }
 }
