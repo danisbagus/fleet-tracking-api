@@ -1,13 +1,16 @@
 package danisbagus.fleet_tracking_api.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import danisbagus.fleet_tracking_api.domain.enums.VehicleType;
 
 public class FleetResponse {
-
+    @JsonProperty("id")
     private Integer id;
 
+    @JsonProperty("vehicle_number")
     private String vehicleNumber;
 
+    @JsonProperty("vehicle_type")
     private VehicleType vehicleType;
 
     public FleetResponse(Integer id, String vehicleNumber, VehicleType vehicleType) {

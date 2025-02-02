@@ -3,14 +3,11 @@ package danisbagus.fleet_tracking_api.domain.entity;
 import danisbagus.fleet_tracking_api.domain.dto.FleetRequest;
 import danisbagus.fleet_tracking_api.domain.enums.VehicleType;
 import jakarta.persistence.*;
-
 import java.sql.Timestamp;
-import java.util.Optional;
 import java.time.Instant;
 
 @Entity
 public class Fleet {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
