@@ -15,6 +15,7 @@ public class Fleet {
     @Column(name = "vehicle_number")
     private String vehicleNumber;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "vehicle_type")
     private VehicleType vehicleType;
 
