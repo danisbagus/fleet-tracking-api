@@ -1,0 +1,9 @@
+CREATE SEQUENCE IF NOT EXISTS fleet_id_seq;
+
+CREATE TABLE IF NOT EXISTS fleet (
+    id INTEGER PRIMARY KEY DEFAULT NEXTVAL('fleet_id_seq'),
+    vehicle_number VARCHAR NOT NULL,
+    vehicle_type VARCHAR NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
