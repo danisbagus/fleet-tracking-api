@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@Table(name = "fleet_location")
+@SequenceGenerator(name = "fleet_location_seq_generator", sequenceName = "fleet_location_id_seq", allocationSize = 1)
 public class FleetLocation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "fleet_location_seq_generator")
     private Integer id;
 
     @Column(name = "fleet_id")

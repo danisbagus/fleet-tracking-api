@@ -1,9 +1,0 @@
-CREATE SEQUENCE IF NOT EXISTS "fleet_id_seq";
-CREATE TYPE VEHICLE_TYPE AS ENUM ('BUS', 'CAR', 'MOTOR');
-CREATE TABLE IF NOT EXISTS fleet (
-    id INT4 DEFAULT NEXTVAL('fleet_id_seq'),
-    vehicle_number VARCHAR NOT NULL,
-    vehicle_type VARCHAR NOT NULL,
-    created_at TIMESTAMPZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPZ NULL NOW()
-);

@@ -6,10 +6,13 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+
 @Entity
+@Table(name = "fleet")
+@SequenceGenerator(name = "fleet_seq_generator", sequenceName = "fleet_id_seq", allocationSize = 1)
 public class Fleet {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fleet_seq_generator")
     private Integer id;
 
     @Column(name = "vehicle_number")
