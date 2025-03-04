@@ -25,8 +25,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     };
 
     @ExceptionHandler(InternalServerException.class)
-    public ResponseEntity<WebResponse<Object>> handleInternalServerException(InternalServerException ex)  {
+    public ResponseEntity<WebResponse<Object>> handleInternalServerException(InternalServerException ex) {
         return buildResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    };
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<WebResponse<Object>> handleUnauthorizedException(UnauthorizedException ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     };
 
     @ExceptionHandler(Exception.class)
@@ -35,11 +40,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         WebResponse<Object> response = new WebResponse<>(
                 ex.getFieldError().getDefaultMessage(),
-                status.value()
-        );
+                status.value());
 
         return new ResponseEntity<>(response, status);
     }
@@ -54,8 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<WebResponse<Object>> buildResponse(String message, HttpStatus status) {
         WebResponse<Object> response = new WebResponse<>(
                 message,
-                status.value()
-        );
+                status.value());
 
         return new ResponseEntity<>(response, status);
     }
