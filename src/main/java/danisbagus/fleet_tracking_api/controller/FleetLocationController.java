@@ -4,6 +4,7 @@ import danisbagus.fleet_tracking_api.domain.dto.*;
 import danisbagus.fleet_tracking_api.service.FleetLocationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class FleetLocationController {
     private FleetLocationService fleetLocationService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
     public WebResponse<List<FleetLocationResponse>> list(
             @PathVariable Integer fleetId) {
         List<FleetLocationResponse> fleetLocationResponses = fleetLocationService.list(fleetId);
@@ -23,6 +25,7 @@ public class FleetLocationController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_DRIVER')")
     public WebResponse<FleetLocationResponse> create(
             @PathVariable Integer fleetId,
             @Valid @RequestBody FleetLocationRequest fleetLocationRequest) {

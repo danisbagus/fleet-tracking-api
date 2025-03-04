@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "fleet_location")
+@Table(name = "tr_fleet_location")
 @SequenceGenerator(name = "fleet_location_seq_generator", sequenceName = "fleet_location_id_seq", allocationSize = 1)
 public class FleetLocation {
 
