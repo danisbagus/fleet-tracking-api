@@ -2,10 +2,9 @@ package danisbagus.fleet_tracking_api.service;
 
 import danisbagus.fleet_tracking_api.domain.dto.FleetRequest;
 import danisbagus.fleet_tracking_api.domain.dto.FleetResponse;
-import danisbagus.fleet_tracking_api.domain.entity.Fleet;
+import danisbagus.fleet_tracking_api.domain.entity.FleetEntity;
 import danisbagus.fleet_tracking_api.exception.BadRequestException;
 import danisbagus.fleet_tracking_api.repository.FleetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -14,25 +13,28 @@ import java.util.List;
 
 @Service
 public class FleetService {
-    @Autowired
-    private FleetRepository fleetRepository;
+    private final FleetRepository fleetRepository;
+
+    public FleetService(FleetRepository fleetRepository) {
+        this.fleetRepository = fleetRepository;
+    }
 
     public List<FleetResponse> list() {
-        List<Fleet> fleets = fleetRepository.findAll();
+        List<FleetEntity> fleets = fleetRepository.findAll();
 
-        return  fleets.stream().map(this::toFleetResponse).toList();
+        return fleets.stream().map(this::toFleetResponse).toList();
     }
 
     public FleetResponse create(FleetRequest fleetRequest) {
-        Fleet fleet = toFleet(fleetRequest);
-        Fleet newFleet = fleetRepository.save(fleet);
+        FleetEntity fleet = toFleet(fleetRequest);
+        FleetEntity newFleet = fleetRepository.save(fleet);
 
         fleet.setId(newFleet.getId());
         return toFleetResponse(fleet);
     }
 
     public FleetResponse get(Integer id) {
-        Fleet fleet = fleetRepository.findById(id).orElseThrow(() -> new BadRequestException("Fleet not found"));
+        FleetEntity fleet = fleetRepository.findById(id).orElseThrow(() -> new BadRequestException("Fleet not found"));
 
         return toFleetResponse(fleet);
     }
@@ -44,27 +46,25 @@ public class FleetService {
     }
 
     public void update(Integer id, FleetRequest fleetRequest) {
-        Fleet fleet = fleetRepository.findById(id).orElseThrow(() -> new BadRequestException("Fleet not found"));
+        FleetEntity fleet = fleetRepository.findById(id).orElseThrow(() -> new BadRequestException("Fleet not found"));
 
         fleet.setWithFleetRequest(fleetRequest);
         fleetRepository.save(fleet);
     }
 
-    private FleetResponse toFleetResponse(Fleet fleet) {
+    private FleetResponse toFleetResponse(FleetEntity fleet) {
         return new FleetResponse(
                 fleet.getId(),
                 fleet.getVehicleNumber(),
-                fleet.getVehicleType()
-        );
+                fleet.getVehicleType());
     }
 
-    private Fleet toFleet(FleetRequest fleetRequest) {
+    private FleetEntity toFleet(FleetRequest fleetRequest) {
         Timestamp currentTime = Timestamp.from(Instant.now());
-        return  new Fleet(
+        return new FleetEntity(
                 fleetRequest.getVehicleNumber(),
                 fleetRequest.getVehicleType(),
                 currentTime,
-                currentTime
-        );
+                currentTime);
     }
 }

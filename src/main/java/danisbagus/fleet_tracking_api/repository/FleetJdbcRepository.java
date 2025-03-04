@@ -1,7 +1,6 @@
 package danisbagus.fleet_tracking_api.repository;
 
-import danisbagus.fleet_tracking_api.domain.entity.Fleet;
-import org.springframework.beans.factory.annotation.Autowired;
+import danisbagus.fleet_tracking_api.domain.entity.FleetEntity;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,17 +16,19 @@ import java.util.Optional;
 
 @Repository
 public class FleetJdbcRepository {
+    private final JdbcTemplate springJdbcTemplate;
 
-    @Autowired
-    private JdbcTemplate springJdbcTemplate;
-
-    public List<Fleet> findAll() {
-        String sql = "SELECT * FROM fleet";
-
-        return springJdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Fleet.class));
+    public FleetJdbcRepository(JdbcTemplate springJdbcTemplate) {
+        this.springJdbcTemplate = springJdbcTemplate;
     }
 
-    public Integer insert(Fleet fleet) {
+    public List<FleetEntity> findAll() {
+        String sql = "SELECT * FROM fleet";
+
+        return springJdbcTemplate.query(sql, new BeanPropertyRowMapper<>(FleetEntity.class));
+    }
+
+    public Integer insert(FleetEntity fleet) {
         String sql = "insert into fleet (vehicle_number, vehicle_type, created_at, updated_at) values(?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -50,11 +51,12 @@ public class FleetJdbcRepository {
         return -1; // if id not found
     }
 
-    public Optional<Fleet> findByID(Integer id) {
+    public Optional<FleetEntity> findByID(Integer id) {
         String sql = "select * from fleet where id = ?";
 
         try {
-            Fleet fleet = springJdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Fleet.class), id);
+            FleetEntity fleet = springJdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(FleetEntity.class),
+                    id);
             return Optional.ofNullable(fleet);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -66,10 +68,10 @@ public class FleetJdbcRepository {
 
         int rowsAffected = springJdbcTemplate.update(sql, id);
 
-        return  rowsAffected > 0;
+        return rowsAffected > 0;
     }
 
-    public Boolean updateByID(Integer id, Fleet payload) {
+    public Boolean updateByID(Integer id, FleetEntity payload) {
         String sql = "update fleet set vehicle_number = ?, vehicle_type = ?, updated_at = ? where id = ?";
 
         int rowsAffected = springJdbcTemplate.update(sql,

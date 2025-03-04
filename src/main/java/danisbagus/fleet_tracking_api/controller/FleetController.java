@@ -4,7 +4,6 @@ import danisbagus.fleet_tracking_api.domain.dto.FleetRequest;
 import danisbagus.fleet_tracking_api.domain.dto.FleetResponse;
 import danisbagus.fleet_tracking_api.domain.dto.WebResponse;
 import danisbagus.fleet_tracking_api.service.FleetService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +12,11 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/fleets")
 public class FleetController {
+    private final FleetService fleetService;
 
-    @Autowired
-    private FleetService fleetService;
+    public FleetController(FleetService fleetService) {
+        this.fleetService = fleetService;
+    }
 
     @GetMapping
     public WebResponse<List<FleetResponse>> list() {
@@ -38,12 +39,12 @@ public class FleetController {
     @DeleteMapping(path = "/{id}")
     public WebResponse<Boolean> delete(@PathVariable Integer id) {
         fleetService.delete(id);
-        return  new WebResponse<>(null, "SUCCESS", 200);
+        return new WebResponse<>(null, "SUCCESS", 200);
     }
 
     @PutMapping(path = "/{id}")
     public WebResponse<Boolean> update(@Valid @RequestBody FleetRequest fleetRequest, @PathVariable Integer id) {
         fleetService.update(id, fleetRequest);
-        return  new WebResponse<>(null, "SUCCESS", 200);
+        return new WebResponse<>(null, "SUCCESS", 200);
     }
 }

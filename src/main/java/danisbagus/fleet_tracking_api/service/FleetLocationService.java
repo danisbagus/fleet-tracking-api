@@ -2,7 +2,7 @@ package danisbagus.fleet_tracking_api.service;
 
 import danisbagus.fleet_tracking_api.domain.dto.FleetLocationRequest;
 import danisbagus.fleet_tracking_api.domain.dto.FleetLocationResponse;
-import danisbagus.fleet_tracking_api.domain.entity.FleetLocation;
+import danisbagus.fleet_tracking_api.domain.entity.FleetLocationEntity;
 import danisbagus.fleet_tracking_api.exception.BadRequestException;
 import danisbagus.fleet_tracking_api.repository.FleetLocationRepository;
 import danisbagus.fleet_tracking_api.repository.FleetRepository;
@@ -24,7 +24,7 @@ public class FleetLocationService {
     public List<FleetLocationResponse> list(Integer fleetId) {
         fleetRepository.findById(fleetId).orElseThrow(() -> new BadRequestException("Fleet not found"));
 
-        List<FleetLocation> fleetLocations = fleetLocationRepository.findByFleetIdOrderByCreatedAtDesc(fleetId);
+        List<FleetLocationEntity> fleetLocations = fleetLocationRepository.findByFleetIdOrderByCreatedAtDesc(fleetId);
 
         return fleetLocations.stream().map(this::toFleetLocationResponse).toList();
     }
@@ -32,27 +32,25 @@ public class FleetLocationService {
     public FleetLocationResponse create(Integer fleetId, FleetLocationRequest fleetLocationRequest) {
         fleetRepository.findById(fleetId).orElseThrow(() -> new BadRequestException("Fleet not found"));
 
-        FleetLocation fleetLocation = toFleetLocation(fleetId, fleetLocationRequest);
+        FleetLocationEntity fleetLocation = toFleetLocation(fleetId, fleetLocationRequest);
         fleetLocationRepository.save(fleetLocation);
 
         return toFleetLocationResponse(fleetLocation);
     }
 
-    private FleetLocation toFleetLocation(Integer fleetID, FleetLocationRequest fleetLocationRequest) {
-        return new FleetLocation(
+    private FleetLocationEntity toFleetLocation(Integer fleetID, FleetLocationRequest fleetLocationRequest) {
+        return new FleetLocationEntity(
                 fleetID,
                 fleetLocationRequest.getLongitude(),
                 fleetLocationRequest.getLatitude(),
-                Timestamp.from(Instant.now())
-        );
+                Timestamp.from(Instant.now()));
     }
 
-    private FleetLocationResponse toFleetLocationResponse(FleetLocation fleetLocation) {
+    private FleetLocationResponse toFleetLocationResponse(FleetLocationEntity fleetLocation) {
         return new FleetLocationResponse(
                 fleetLocation.getLongitude(),
                 fleetLocation.getLatitude(),
                 fleetLocation.getFleetId(),
-                fleetLocation.getCreatedAt()
-        );
+                fleetLocation.getCreatedAt());
     }
 }
