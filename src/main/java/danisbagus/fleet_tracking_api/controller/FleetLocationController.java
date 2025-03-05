@@ -3,6 +3,8 @@ package danisbagus.fleet_tracking_api.controller;
 import danisbagus.fleet_tracking_api.domain.dto.*;
 import danisbagus.fleet_tracking_api.service.FleetLocationService;
 import jakarta.validation.Valid;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,21 +20,19 @@ public class FleetLocationController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
     public WebResponse<List<FleetLocationResponse>> list(
             @PathVariable Integer fleetId) {
         List<FleetLocationResponse> fleetLocationResponses = fleetLocationService.list(fleetId);
 
-        return new WebResponse<>(fleetLocationResponses, "SUCCESS", 200);
+        return new WebResponse<>(fleetLocationResponses, "SUCCESS", HttpStatus.OK);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_DRIVER')")
     public WebResponse<FleetLocationResponse> create(
             @PathVariable Integer fleetId,
             @Valid @RequestBody FleetLocationRequest fleetLocationRequest) {
         FleetLocationResponse fleetLocationResponse = fleetLocationService.create(fleetId, fleetLocationRequest);
 
-        return new WebResponse<>(fleetLocationResponse, "SUCCESS", 201);
+        return new WebResponse<>(fleetLocationResponse, "SUCCESS", HttpStatus.CREATED);
     }
 }

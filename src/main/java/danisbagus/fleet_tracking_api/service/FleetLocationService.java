@@ -6,7 +6,6 @@ import danisbagus.fleet_tracking_api.domain.entity.FleetLocationEntity;
 import danisbagus.fleet_tracking_api.exception.BadRequestException;
 import danisbagus.fleet_tracking_api.repository.FleetLocationRepository;
 import danisbagus.fleet_tracking_api.repository.FleetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -15,11 +14,13 @@ import java.util.List;
 
 @Service
 public class FleetLocationService {
-    @Autowired
-    private FleetLocationRepository fleetLocationRepository;
+    private final FleetLocationRepository fleetLocationRepository;
+    private final FleetRepository fleetRepository;
 
-    @Autowired
-    private FleetRepository fleetRepository;
+    public FleetLocationService(FleetLocationRepository fleetLocationRepository, FleetRepository fleetRepository) {
+        this.fleetLocationRepository = fleetLocationRepository;
+        this.fleetRepository = fleetRepository;
+    }
 
     public List<FleetLocationResponse> list(Integer fleetId) {
         fleetRepository.findById(fleetId).orElseThrow(() -> new BadRequestException("Fleet not found"));

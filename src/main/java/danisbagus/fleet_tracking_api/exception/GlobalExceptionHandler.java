@@ -44,7 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         WebResponse<Object> response = new WebResponse<>(
                 ex.getFieldError().getDefaultMessage(),
-                status.value());
+                status);
 
         return new ResponseEntity<>(response, status);
     }
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<WebResponse<Object>> buildResponse(String message, HttpStatus status) {
         WebResponse<Object> response = new WebResponse<>(
                 message,
-                status.value());
+                status);
 
         return new ResponseEntity<>(response, status);
     }

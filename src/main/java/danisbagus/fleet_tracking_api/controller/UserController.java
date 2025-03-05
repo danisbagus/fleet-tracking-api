@@ -5,6 +5,7 @@ import danisbagus.fleet_tracking_api.domain.dto.WebResponse;
 import danisbagus.fleet_tracking_api.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,6 @@ public class UserController {
         String token = request.getHeader("Authorization").substring(7);
         ProfileResponse profileResponse = userService.getProfile(token);
 
-        return new WebResponse<>(profileResponse, "SUCCESS", 200);
+        return new WebResponse<>(profileResponse, "SUCCESS", HttpStatus.OK);
     }
 }
