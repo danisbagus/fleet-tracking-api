@@ -6,11 +6,10 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.Instant;
 
-
 @Entity
-@Table(name = "fleet")
+@Table(name = "ms_fleet")
 @SequenceGenerator(name = "fleet_seq_generator", sequenceName = "fleet_id_seq", allocationSize = 1)
-public class Fleet {
+public class FleetEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fleet_seq_generator")
     private Integer id;
@@ -28,20 +27,21 @@ public class Fleet {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    public Fleet() {}
+    public FleetEntity() {
+    }
 
-    public Fleet(Integer id, String vehicleNumber, VehicleType vehicleType) {
+    public FleetEntity(Integer id, String vehicleNumber, VehicleType vehicleType) {
         this.id = id;
         this.vehicleNumber = vehicleNumber;
         this.vehicleType = vehicleType;
     }
 
-    public Fleet(String vehicleNumber, VehicleType vehicleType) {
+    public FleetEntity(String vehicleNumber, VehicleType vehicleType) {
         this.vehicleNumber = vehicleNumber;
         this.vehicleType = vehicleType;
     }
 
-    public Fleet(String vehicleNumber, VehicleType vehicleType, Timestamp createdAt, Timestamp updatedAt) {
+    public FleetEntity(String vehicleNumber, VehicleType vehicleType, Timestamp createdAt, Timestamp updatedAt) {
         this.vehicleNumber = vehicleNumber;
         this.vehicleType = vehicleType;
         this.createdAt = createdAt;

@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "fleet_location")
+@Table(name = "tr_fleet_location")
 @SequenceGenerator(name = "fleet_location_seq_generator", sequenceName = "fleet_location_id_seq", allocationSize = 1)
-public class FleetLocation {
+public class FleetLocationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "fleet_location_seq_generator")
@@ -24,10 +24,10 @@ public class FleetLocation {
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    public FleetLocation() {
+    public FleetLocationEntity() {
     }
 
-    public FleetLocation(Integer fleetId, Float latitude, Float longitude, Timestamp createdAt) {
+    public FleetLocationEntity(Integer fleetId, Float latitude, Float longitude, Timestamp createdAt) {
         this.fleetId = fleetId;
         this.latitude = latitude;
         this.longitude = longitude;
